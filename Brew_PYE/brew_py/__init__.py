@@ -1,7 +1,7 @@
 from flask import Flask
 import os
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager
+
 
 #initialize app with some coniguration
 app = Flask(__name__)
@@ -25,18 +25,7 @@ class User(db.Model):
     def __repr__(self):
         return '<User %r>' % self.username
     
+
+
 import main_controller
-
-'''
-#login manager ?need to reed docs on this is session management ??
-login_manager = LoginManager()
-login_manager.init_app(app)
-'''
-
-
-'''
-@login_manager.user_loader
-def load_user(userid):
-    return User.get(userid)
-'''
     
