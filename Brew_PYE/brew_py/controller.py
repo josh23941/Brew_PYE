@@ -9,16 +9,21 @@ from brew_py import app
 from flask_login import LoginManager, login_required, login_user
 from models import User
 
+'''''''''''''''''''''''''''''
+FLASK-LOGIN STUFF
+'''''''''''''''''''''''''''''
 #flask login-manager extension initialization
 login_manager = LoginManager()
 login_manager.login_view = '/login'
 login_manager.init_app(app)
-'''
+
 @login_manager.user_loader
 def load_user(userid):
-    user = User.query.filter_by(username=userid).first()  
-    return user
-'''
+    return User.get(userid)  
+
+'''''''''''''''''''''''''''''
+APP ROUTES
+'''''''''''''''''''''''''''''
 
 @app.route('/')
 def index():
@@ -47,6 +52,5 @@ def login():
         return render_template('login.html')
     
 @app.route('/main')
-
 def main():
     return render_template('main.html')

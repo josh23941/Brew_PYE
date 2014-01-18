@@ -8,6 +8,6 @@ app.config['SECRET_KEY'] = 'josh23941'
 
 #import routing infor for app...I think the documentation said 
 #this is bad practice but necessary here ?? investigate this later
-import main_controller
+from brew_py import controller
 
     
