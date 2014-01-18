@@ -4,7 +4,7 @@ Created on Jan 15, 2014
 @author: jmiller
 '''
 
-from flask import url_for, redirect, render_template, request, session
+from flask import url_for, redirect, render_template, request
 from brew_py import app
 from flask_login import LoginManager, login_required, login_user
 from models import User
@@ -35,21 +35,12 @@ def login():
         username = request.form['username']
         password = request.form['password']
         user = User.get(username)
-        
         if(user):
             real_password = user.password  
-        
             if password == real_password:
                 #login_user(user)
                 return redirect(url_for('main'))
-            else:
-                return render_template('login.html')
-        else:
-            return render_template('login.html')
-    
-    else:
-        print 'in GET'
-        return render_template('login.html')
+    return render_template('login.html')
     
 @app.route('/main')
 def main():
