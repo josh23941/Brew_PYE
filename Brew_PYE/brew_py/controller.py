@@ -6,7 +6,7 @@ Created on Jan 15, 2014
 
 from flask import url_for, redirect, render_template, request, g, session
 from brew_py import app, login_manager
-from flask_login import login_required, login_user, current_user
+from flask_login import login_required, login_user, current_user, logout_user
 from models import User
 
 
@@ -37,7 +37,13 @@ def login():
                 login_user(user)
                 return redirect(request.args.get('next') or url_for('main'))
     return render_template('login.html')
-    
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
+
 @app.route('/main')
 @login_required
 def main():
