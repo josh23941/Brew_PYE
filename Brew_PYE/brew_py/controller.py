@@ -48,3 +48,9 @@ def logout():
 @login_required
 def main():
     return render_template('main.html')
+
+@app.route('/recipes/add')
+@login_required
+def recipes_add():
+    return render_template('add_recipe.html')
+
