@@ -7,10 +7,11 @@ Created on Jan 15, 2014
 from flask import url_for, redirect, render_template, request, g, session
 from brew_py import app, login_manager, allowed_file
 from flask_login import login_required, login_user, current_user, logout_user
-from models import User
+from models import User, Recipe
 import os
 from werkzeug import secure_filename
-import xml.etree.ElementTree as ET
+from xml.etree import ElementTree as ET
+from xml_util import process_recipe
 
 
 @login_manager.user_loader
@@ -56,15 +57,22 @@ def main():
 def recipes_view():
     return render_template('view_recipes.html')
 
+'''''
+Uploads a file to UPLOAD_FOLDER
+'''''
 @app.route('/recipes/upload', methods=['POST'])
 @login_required
 def upload_file():
-    file = request.files['inputFile']
-    if file and allowed_file(file.filename):
-        filename = secure_filename(file.filename)
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        tree = ET.parse(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        root = tree.getroot()
-        print root[0][0].text
+    uploaded_file = request.files['inputFile']
+    if uploaded_file and allowed_file(uploaded_file.filename):
+        filename = secure_filename(uploaded_file.filename)
+        temp_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        uploaded_file.save(temp_path)
+        recipe_xml = ET.parse(temp_path)
+        args = process_recipe(recipe_xml, Recipe.get_recipe_dict())
+        recipe = Recipe(*args)
+        Recipe.save(recipe)
+        #sometime add verification that this is recipe_xml??? or even beer recipe_xml
+        #pull the data you want and save to db
         return redirect(url_for('main'))
 
