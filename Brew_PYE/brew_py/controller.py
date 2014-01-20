@@ -72,6 +72,7 @@ def upload_file():
         args = process_recipe(recipe_xml, Recipe.get_recipe_dict())
         recipe = Recipe(*args)
         Recipe.save(recipe)
+        os.remove(temp_path)
         #sometime add verification that this is recipe_xml??? or even beer recipe_xml
         #pull the data you want and save to db
         return redirect(url_for('main'))
