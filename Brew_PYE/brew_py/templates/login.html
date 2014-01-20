@@ -38,7 +38,39 @@
           <input type="checkbox" value="remember-me"> Remember me
         </label>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        <button class="btn btn-lg btn-primary btn-block" data-toggle="modal" data-target="#registerUserModal">Register Account</button>
       </form>
+      
+      <!-- Modal -->
+		<div class="modal fade" id="registerUserModal" tabindex="-1" role="dialog" aria-labelledby="registerUserModalLabel" aria-hidden="true">
+  			<div class="modal-dialog">
+    			<div class="modal-content">
+      				<div class="modal-header">
+        				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        				<h4 class="modal-title" id="addRecipeModalLabel" type="button">Register User</h4>
+      				</div>
+      				<form role="form" action="{{ url_for('register') }}" method="post">
+      				<div class="modal-body">
+      					
+  							<div class="form-group">
+    							<label for="exampleInputEmail1">Username</label>
+    							<input type="username" class="form-control" id="registerUsername" placeholder="Enter Username" name="username">
+  							</div>
+  							<div class="form-group">
+    							<label for="exampleInputPassword1">Password</label>
+   	 							<input type="password" class="form-control" id="registerPassword" placeholder="Enter Password" name="password">
+  							</div>
+  						
+  					</div>
+      				<div class="modal-footer">
+        				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        				<button class="btn btn-primary" type="submit">Register</button>
+      				</div>
+      				</form>
+    			</div><!-- /.modal-content -->
+  			</div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
+              
 
     </div> <!-- /container -->
 
@@ -46,5 +78,7 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="../static/js/bootstrap.min.js"></script>
   </body>
 </html>
