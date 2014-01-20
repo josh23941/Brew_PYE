@@ -22,8 +22,8 @@ class User(db.Model):
     password = db.Column(db.String(80))
     
     def __init__(self, username, password):
-    	self.username = username
-    	self.password = password
+        self.username = username
+        self.password = password
 
     def __repr__(self):
         return '<User %r>' % self.username
@@ -69,6 +69,11 @@ class Recipe(db.Model):
     est_color = db.Column(db.Text)
     ibu = db.Column(db.Text)
     est_abv = db.Column(db.Text)
+    
+    @staticmethod
+    def get_by_owner(owner):
+        print Recipe.query.filter_by(owner=owner)
+        return Recipe.query.filter_by(owner=owner)
     
     def __init__(self, owner, name, version, type, brewer, batch_size, boil_size, efficiency, hops, fermentables, style, equipment,
                  mash, est_og, est_fg, est_color, ibu, est_abv):

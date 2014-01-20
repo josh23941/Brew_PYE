@@ -59,7 +59,8 @@ def main():
 @app.route('/recipes/view')
 @login_required
 def recipes_view():
-    return render_template('view_recipes.html')
+    recipe_list = Recipe.get_by_owner(g.user.username)
+    return render_template('view_recipes.html', recipe_list=recipe_list)
 
 '''''
 Uploads a file to UPLOAD_FOLDER

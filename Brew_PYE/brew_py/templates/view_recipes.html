@@ -4,6 +4,20 @@
         <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#addRecipeModal">
   			Add Recipe
 		</button>
+		
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<td>Recipe</td>
+				</tr>
+			</thead>
+			<tbody>
+				{% for recipe_name in recipe_list %}
+					<tr><td>{{ recipe_name.name }}</td></tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		
         <!-- Modal -->
 		<div class="modal fade" id="addRecipeModal" tabindex="-1" role="dialog" aria-labelledby="addRecipeModalLabel" aria-hidden="true">
   			<div class="modal-dialog">
