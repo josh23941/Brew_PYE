@@ -18,6 +18,10 @@ class User(db.Model):
     username = db.Column(db.String(80), unique=True)
     password = db.Column(db.String(80))
     
+    def __init__(self, username, password):
+    	self.username = username
+    	self.password = password
+
     def __repr__(self):
         return '<User %r>' % self.username
     
@@ -121,9 +125,4 @@ db.create_all()
 admin = User('admin', 'josh23941')
 db.session.add(admin) #@UndefinedVariable
 db.session.commit() #@UndefinedVariable
-'''
-'''
-recipe = Recipe('Maximus', '1', 'All Grain', 'Josh', '11.3563008', '14.6496280', '80.0000000')
-db.session.add(recipe)
-db.session.commit()
 '''
