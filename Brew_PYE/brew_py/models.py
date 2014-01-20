@@ -72,7 +72,6 @@ class Recipe(db.Model):
     
     @staticmethod
     def get_by_owner(owner):
-        print Recipe.query.filter_by(owner=owner)
         return Recipe.query.filter_by(owner=owner)
     
     def __init__(self, owner, name, version, type, brewer, batch_size, boil_size, efficiency, hops, fermentables, style, equipment,

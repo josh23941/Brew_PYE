@@ -51,8 +51,8 @@
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Recipes <!--<b class="caret"></b>--></a>
               <ul class="dropdown-menu">
-                <li><a href="{{ url_for('recipes_view') }}">Add Recipe</a></li>
-                <li><a href="#">View Recipes</a></li>
+                <li><a href="#" data-toggle="modal" data-target="#addRecipeModal">Add Recipe</a></li>
+                <li><a href="{{ url_for('recipes_view') }}">View Recipes</a></li>
                 <!--<li class="divider"></li>
                 <li class="dropdown-header">Nav header</li>
                 <li><a href="#">Separated link</a></li>
@@ -74,7 +74,41 @@
 	
       {% block content %}
       {% endblock %}
-
+      
+	<!-- Modal -->
+		<div class="modal fade" id="addRecipeModal" tabindex="-1" role="dialog" aria-labelledby="addRecipeModalLabel" aria-hidden="true">
+  			<div class="modal-dialog">
+    			<div class="modal-content">
+      				<div class="modal-header">
+        				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        				<h4 class="modal-title" id="addRecipeModalLabel">Add Recipe</h4>
+      				</div>
+      				
+      				<div class="modal-body">
+      					<!-- Nav tabs -->
+						<ul class="nav nav-tabs">
+  							<li><a href="#recipeForm" data-toggle="tab">Recipe Form</a></li>
+  							<li><a href="#beersmithUpload" data-toggle="tab">Upload Beersmith Recipe</a></li>
+						</ul>
+						<!-- Tab panes -->
+						<div class="tab-content">
+  							<div class="tab-pane active" id="recipeForm">No Manual Recipe Input Yet :(</div>
+  							<div class="tab-pane" id="beersmithUpload">
+  								<form role="form" enctype="multipart/form-data" action="{{ url_for('upload_file') }}" method="POST">									
+  									<div class="form-group">
+    									<label for="inputFile">Please select a BeerSmith2 file to upload.</label>
+    									<input type="hidden" name="MAX_FILE_SIZE" value="100000" />
+    									<input type="file" id="inputFile" name="inputFile">
+    									<p class="help-block">Only XML files are supported at this time.</p>
+  						</div>	
+      				</div>
+      							<div class="modal-footer">
+        							<button type="submit" class="btn btn-default" value="Upload">Upload</button>
+      							</div>
+      						</form>	
+    			</div><!-- /.modal-content -->
+  			</div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
 	</div> <!--container-->
     <!-- Bootstrap core JavaScript
     ================================================== -->
