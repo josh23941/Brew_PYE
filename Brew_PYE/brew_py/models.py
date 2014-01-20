@@ -51,8 +51,9 @@ class Recipe(db.Model):
     batch_size = db.Column(db.Float)
     boil_size = db.Column(db.Float)
     efficiency = db.Column(db.Float)
+    hops = db.Column(db.Text)
     
-    def __init__(self, name, version, type, brewer, batch_size, boil_size, efficiency):
+    def __init__(self, name, version, type, brewer, batch_size, boil_size, efficiency, hops):
 	   self.name = name;
 	   self.version = version;
 	   self.type = type;
@@ -60,7 +61,8 @@ class Recipe(db.Model):
 	   self.batch_size = batch_size
 	   self.boil_size = boil_size
 	   self.efficiency = efficiency
-	
+	   self.hops = hops
+
     @staticmethod
     def save(recipe):
         db.session.add(recipe)
@@ -82,8 +84,7 @@ class Recipe(db.Model):
 					('RECIPE/BATCH_SIZE', True),
 					('RECIPE/BOIL_SIZE', True),
 					('RECIPE/EFFICIENCY', True),
-					])
-    	
+					('RECIPE/HOPS', False)])
 #create_all tables from the db.Model classes
 db.create_all()
 '''

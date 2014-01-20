@@ -19,13 +19,8 @@ def process_recipe(element_tree, dictionary):
         params.append(get_element(element_tree, k, v))
     print params
     return params
+
 '''
-dictionary = OrderedDict([('RECIPE/NAME', True),  # @IndentOk
-                    ('RECIPE/VERSION', True),
-                    ('RECIPE/TYPE', True),
-                    ('RECIPE/BREWER', True),
-                    ('RECIPE/BATCH_SIZE', True),
-                    ('RECIPE/BOIL_SIZE', True),
-                    ('RECIPE/EFFICIENCY', True),
-                    ])
+xml = ET.parse('uploads/maxxml.xml')
+print(process_recipe(xml, dict([('RECIPE/HOPS', False)])))[0]
 '''
