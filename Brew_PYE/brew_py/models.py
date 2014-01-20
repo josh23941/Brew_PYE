@@ -52,8 +52,18 @@ class Recipe(db.Model):
     boil_size = db.Column(db.Float)
     efficiency = db.Column(db.Float)
     hops = db.Column(db.Text)
+    fermentatbles = db.Column(db.Text)
+    style = db.Column(db.Text)
+    equipment = db.Column(db.Text)
+    mash =  db.Column(db.Text)
+    est_og = db.Column(db.Text)
+    est_fg = db.Column(db.Text)
+    est_color = db.Column(db.Text)
+    ibu = db.Column(db.Text)
+    est_abv = db.Column(db.Text)
     
-    def __init__(self, name, version, type, brewer, batch_size, boil_size, efficiency, hops):
+    def __init__(self, name, version, type, brewer, batch_size, boil_size, efficiency, hops,
+				fermentables, style, equipment, mash, est_og, est_fg, est_color, ibu, est_abv):
 	   self.name = name;
 	   self.version = version;
 	   self.type = type;
@@ -62,6 +72,15 @@ class Recipe(db.Model):
 	   self.boil_size = boil_size
 	   self.efficiency = efficiency
 	   self.hops = hops
+	   self.fermentables = fermentables
+	   self.style = style
+	   self.equipment = equipment
+	   self.mash = mash
+	   self.est_og = est_og
+	   self.est_fg = est_fg
+	   self.est_color = est_color
+	   self.ibu = ibu
+	   self.est_abv = est_abv
 
     @staticmethod
     def save(recipe):
@@ -84,7 +103,17 @@ class Recipe(db.Model):
 					('RECIPE/BATCH_SIZE', True),
 					('RECIPE/BOIL_SIZE', True),
 					('RECIPE/EFFICIENCY', True),
-					('RECIPE/HOPS', False)])
+					('RECIPE/HOPS', False),
+					('RECIPE/FERMENTABLES', False),
+					('RECIPE/STYLE', False),
+					('RECIPE/EQUIPMENT', False),
+					('RECIPE/MASH', False),
+					('RECIPE/EST_OG', True),
+					('RECIPE/EST_FG', True),
+					('RECIPE/EST_COLOR', True),
+					('RECIPE/IBU', True),
+					('RECIPE/EST_ABV', True),
+					])
 #create_all tables from the db.Model classes
 db.create_all()
 '''
