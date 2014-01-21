@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_login import LoginManager
+from flask_sqlalchemy import SQLAlchemy
 
 UPLOAD_FOLDER = 'brew_py/uploads'
 ALLOWED_EXTENSIONS = set(['xml'])
@@ -11,6 +12,8 @@ app.config['CSRF_ENABLED'] = True
 app.config['SECRET_KEY'] = 'josh23941'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
+
+
 #helper for upload_file()
 def allowed_file(filename):
     return '.' in filename and \
@@ -21,6 +24,12 @@ login_manager.init_app(app)
 login_manager.login_view = '/login'
 #import routing infor for app...I think the documentation said 
 #this is bad practice but necessary here ?? investigate this later
-from brew_py import controller
+
 
     
+import controller, models
+from models import db
+
+
+
+

@@ -4,22 +4,20 @@ Created on Jan 18, 2014
 @author: jmiller
 '''
 
-from flask_sqlalchemy import SQLAlchemy
-from brew_py import app
+from sqlalchemy import Column, Integer, String, Float, Text
 from collections import OrderedDict
 from xml.etree import ElementTree as ET
 from xml_util import get_element
 from flask import g
+from shared_models import db
 
-# setup db
-db = SQLAlchemy(app)
 
 # User Model
 class User(db.Model):
     __tablename__ = 'user'
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), unique=True)
-    password = db.Column(db.String(80))
+    id = Column(Integer, primary_key=True)
+    username = Column(String(80), unique=True)
+    password = Column(String(80))
     
     def __init__(self, username, password):
         self.username = username
@@ -50,25 +48,25 @@ class User(db.Model):
     
 class Recipe(db.Model):
     __tablename__ = 'recipe'
-    id = db.Column(db.Integer, primary_key=True)
-    owner = db.Column(db.String(80))
-    name = db.Column(db.String(80))
-    version = db.Column(db.Float)
-    type = db.Column(db.String(9))
-    brewer = db.Column(db.String(80))
-    batch_size = db.Column(db.Float)
-    boil_size = db.Column(db.Float)
-    efficiency = db.Column(db.Float)
-    hops = db.Column(db.Text)
-    fermentatbles = db.Column(db.Text)
-    style = db.Column(db.Text)
-    equipment = db.Column(db.Text)
-    mash = db.Column(db.Text)
-    est_og = db.Column(db.Text)
-    est_fg = db.Column(db.Text)
-    est_color = db.Column(db.Text)
-    ibu = db.Column(db.Text)
-    est_abv = db.Column(db.Text)
+    id = Column(Integer, primary_key=True)
+    owner = Column(String(80))
+    name = Column(String(80))
+    version = Column(Float)
+    type = Column(String(9))
+    brewer = Column(String(80))
+    batch_size = Column(Float)
+    boil_size = Column(Float)
+    efficiency = Column(Float)
+    hops = Column(Text)
+    fermentatbles = Column(Text)
+    style = Column(Text)
+    equipment = Column(Text)
+    mash = Column(Text)
+    est_og = Column(Text)
+    est_fg = Column(Text)
+    est_color = Column(Text)
+    ibu = Column(Text)
+    est_abv = Column(Text)
     
     @staticmethod
     def get_by_owner(owner):
@@ -129,12 +127,11 @@ class Recipe(db.Model):
             params.append(get_element(element_tree, k, v))
         return params
 
-# create_all tables from the db.Model classes
-db.create_all()
+
 
 def save_model_to_db(model_object):
-    db.session.add(model_object)
-    db.session.commit()
+    db.session.add(model_object)  # @UndefinedVariable
+    db.session.commit() #@UndefinedVariable
     return True
 '''
 #need to move this to appropriate place where registering a user would occur.
