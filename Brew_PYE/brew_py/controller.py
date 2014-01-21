@@ -5,11 +5,14 @@ Created on Jan 15, 2014
 '''
 
 from flask import url_for, redirect, render_template, request, g, session
-from brew_py import app, login_manager, allowed_file
+from brew_py import app, login_manager
 from flask_login import login_required, login_user, current_user, logout_user
-from models import User, Recipe, save_model_to_db
+from models.user import User
+from models.recipe import Recipe 
+from models.shared_models import save_model_to_db
 import os
 from werkzeug import secure_filename
+from brew_py.util.brew_py_util import allowed_file
 
 @login_manager.user_loader
 def load_user(userid):

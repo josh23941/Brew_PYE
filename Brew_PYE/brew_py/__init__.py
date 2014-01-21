@@ -2,6 +2,7 @@ from flask import Flask
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 
+#Config stuff...should move to file
 UPLOAD_FOLDER = 'brew_py/uploads'
 ALLOWED_EXTENSIONS = set(['xml'])
 
@@ -12,23 +13,20 @@ app.config['CSRF_ENABLED'] = True
 app.config['SECRET_KEY'] = 'josh23941'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-
-
-#helper for upload_file()
-def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
-           
+#Setup flask-login manager extension
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = '/login'
-#import routing infor for app...I think the documentation said 
-#this is bad practice but necessary here ?? investigate this later
+
+#imports all routes to views
+import controller
+
+#Gets the SQLAlchemy object 'db' after models have been setup
+#the db is not attached to the app yet so which allows for easy swapping in of the test db
+from models.shared_models import db
 
 
-    
-import controller, models
-from models import db
+
 
 
 
