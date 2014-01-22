@@ -40,7 +40,8 @@ class Recipe(db.Model):
         for elem in element_tree.iterfind(xpath):
             return ET.tostring(elem)
         
-        
+    #takes filepath of uploaded Beersmith2 recipe xml.
+    #TODO: there are more fields to extract from xml if wanted
     def __init__(self, filepath):
         
         etree = ET.parse(filepath)

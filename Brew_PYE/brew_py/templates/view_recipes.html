@@ -1,4 +1,13 @@
 {% extends "main_layout.html" %}
+
+{% block docOnReady %}
+	<script type="text/javascript"> $(document).ready(function($) {
+      $(".clickableRow").click(function() {
+            window.document.location = $(this).attr("href");
+      });
+});</script>
+{% endblock %}
+
 {% block content %}
 	<div class="jumbotron">
         
@@ -11,14 +20,11 @@
 			</thead>
 			<tbody>
 				{% for recipe in recipe_list %}
-					<tr>
-						<td>{{ recipe.name }}</td><td>{{ recipe.type }}</td><td>{{ recipe.batch_size }}</td>
-					</tr>
-					
+					<tr class="clickableRow" href="/view/{{ recipe.id }}"><td>{{ recipe.name }}</td><td>{{ recipe.type }}</td><td>{{ recipe.batch_size }}</td></tr>
 				{% endfor %}
 			</tbody>
 		</table>
 		
-        
+       
     </div><!-- /.jumbotron -->
 {% endblock %}
