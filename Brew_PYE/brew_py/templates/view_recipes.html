@@ -10,8 +10,11 @@
 				</tr>
 			</thead>
 			<tbody>
-				{% for recipe_name in recipe_list %}
-					<tr><td>{{ recipe_name.name }}</td></tr>
+				{% for recipe in recipe_list %}
+					<tr>
+						<td>{{ recipe.name }}</td><td>{{ recipe.type }}</td><td>{{ recipe.batch_size }}</td>
+					</tr>
+					
 				{% endfor %}
 			</tbody>
 		</table>

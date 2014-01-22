@@ -7,9 +7,7 @@ Created on Jan 20, 2014
 from shared_models import db
 from sqlalchemy import Column, Integer, String, Float, Text
 from flask import g
-from collections import OrderedDict
 from xml.etree import ElementTree as ET
-from brew_py.util.brew_py_util import get_element
 
 class Recipe(db.Model):
     __tablename__ = 'recipe'
@@ -37,57 +35,39 @@ class Recipe(db.Model):
     def get_by_owner(owner):
         return Recipe.query.filter_by(owner=owner)
     
-    def __init__(self, owner, name, version, type, brewer, batch_size, boil_size, efficiency, hops, fermentables, style, equipment,
-                 mash, est_og, est_fg, est_color, ibu, est_abv):
-        self.owner = owner
-        self.name = name
-        self.version = version
-        self.type = type
-        self.brewer = brewer
-        self.batch_size = batch_size
-        self.boil_size = boil_size
-        self.efficiency = efficiency
-        self.hops = hops
-        self.fermentables = fermentables
-        self.style = style
-        self.equipment = equipment
-        self.mash = mash
-        self.est_og = est_og
-        self.est_fg = est_fg
-        self.est_color = est_color
-        self.ibu = ibu
-        self.est_abv = est_abv
+    @staticmethod
+    def get_inner_xml(element_tree, xpath):
+        for elem in element_tree.iterfind(xpath):
+            return ET.tostring(elem)
+        
+        
+    def __init__(self, filepath):
+        
+        etree = ET.parse(filepath)
+        
+        self.owner = g.user.username
+        self.name = etree.iterfind('RECIPE/NAME').next().text
+        self.version = etree.iterfind('RECIPE/VERSION').next().text
+        self.type = etree.iterfind('RECIPE/TYPE').next().text
+        self.brewer = etree.iterfind('RECIPE/BREWER').next().text
+        self.batch_size = etree.iterfind('RECIPE/BATCH_SIZE').next().text
+        self.boil_size = etree.iterfind('RECIPE/BOIL_SIZE').next().text
+        self.efficiency = etree.iterfind('RECIPE/EFFICIENCY').next().text
+        self.hops = Recipe.get_inner_xml(etree, 'RECIPE/HOPS')
+        self.fermentables = Recipe.get_inner_xml(etree, 'RECIPE/FERMENTABLES')
+        self.style = Recipe.get_inner_xml(etree, 'RECIPE/STYLE')
+        self.equipment = Recipe.get_inner_xml(etree, 'RECIPE/EQUIPMENT')
+        self.mash = Recipe.get_inner_xml(etree, 'RECIPE/MASH')
+        self.est_og = etree.iterfind('RECIPE/EST_OG').next().text
+        self.est_fg = etree.iterfind('RECIPE/EST_FG').next().text
+        self.est_color = etree.iterfind('RECIPE/EST_COLOR').next().text
+        self.ibu = etree.iterfind('RECIPE/IBU').next().text
+        self.est_abv = etree.iterfind('RECIPE/EST_ABV').next().text
         
         
     def get_id(self):
-        try:
+        try:        
             return unicode(self.id)
         except AttributeError:
             raise NotImplementedError('No `id` attribute - override `get_id`')
     
-    @staticmethod
-    def process_recipe(filepath):
-        dictionary = OrderedDict([('RECIPE/NAME', True),
-                    ('RECIPE/VERSION', True),
-                    ('RECIPE/TYPE', True),
-                    ('RECIPE/BREWER', True),
-                    ('RECIPE/BATCH_SIZE', True),
-                    ('RECIPE/BOIL_SIZE', True),
-                    ('RECIPE/EFFICIENCY', True),
-                    ('RECIPE/HOPS', False),
-                    ('RECIPE/FERMENTABLES', False),
-                    ('RECIPE/STYLE', False),
-                    ('RECIPE/EQUIPMENT', False),
-                    ('RECIPE/MASH', False),
-                    ('RECIPE/EST_OG', True),
-                    ('RECIPE/EST_FG', True),
-                    ('RECIPE/EST_COLOR', True),
-                    ('RECIPE/IBU', True),
-                    ('RECIPE/EST_ABV', True),
-                    ])
-        element_tree = ET.parse(filepath)
-        #session owner will be set to owner of recipe in database>
-        params = [g.user.username]
-        for k, v in dictionary.iteritems():
-            params.append(get_element(element_tree, k, v))
-        return params

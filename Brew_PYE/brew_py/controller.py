@@ -76,12 +76,15 @@ def upload_file():
         filename = secure_filename(uploaded_file.filename)
         temp_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         uploaded_file.save(temp_path)
-        args = Recipe.process_recipe(temp_path)
-        recipe = Recipe(*args)
-        #Recipe.save(recipe)
+        #should check if this is proper xml (check against schema maybe and check if its malicious in any way?)'
+        #get a recipe model object with the unpacked list returned from process_recipe and save it to the db
+        try:
+            recipe = Recipe(temp_path)
+        except:
+            os.remove(temp_path)
+            print 'error parsing xml file'
         save_model_to_db(recipe)
+        ##remove the xml file and redirect to main view.
         os.remove(temp_path)
-        #sometime add verification that this is recipe_xml??? or even beer recipe_xml
-        #pull the data you want and save to db
         return redirect(url_for('main'))
 
